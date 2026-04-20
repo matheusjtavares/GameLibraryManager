@@ -12,7 +12,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   api:
-    build: ./backend
+    image: matheusjtavares/gamelibrarymanager-api
     container_name: game-lib-api
     ports:
       - "8080:8080"
@@ -24,7 +24,7 @@ services:
       - db
 
   ui:
-    build: ./frontend
+    image: matheusjtavares/gamelibrarymanager-ui
     container_name: game-lib-ui
     ports:
       - "3000:80"
