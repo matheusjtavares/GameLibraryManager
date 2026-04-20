@@ -8,10 +8,18 @@ data:
     global:
       scrape_interval: 15s
     scrape_configs:
-      - job_name: 'kubernetes-pods'
+      - job_name: 'api'
+        metrics_path: '/actuator/prometheus'
+        static_configs:
+          - targets: ['api.gamelibrarymanager.svc.cluster.local:8080']
+            labels:
+              service: 'api'
+      - job_name: 'kubernetes-nodes'
         kubernetes_sd_configs:
-          - role: pod
+          - role: node
         relabel_configs:
-          - source_labels: [__meta_kubernetes_pod_label_io_kompose_service]
-            action: keep
-            regex: (api|ui)
+          - action: labelmap
+            regex: __meta_kubernetes_node_label_(.+)
+          - target_label: __address__
+            replacement: kubernetes.default.svc.cluster.local:10250
+            action: replace

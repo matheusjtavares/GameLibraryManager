@@ -52,6 +52,11 @@ spec:
             - "--storage.tsdb.path=/prometheus/"
           ports:
             - containerPort: 9090
+          resources:
+            limits:
+              memory: "1Gi"
+            requests:
+              memory: "512Mi"
           volumeMounts:
             - name: config-volume
               mountPath: /etc/prometheus/
@@ -64,17 +69,3 @@ spec:
         - name: storage-volume
           persistentVolumeClaim:
             claimName: prometheus-storage-pvc
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: prometheus-service
-  namespace: monitoring
-spec:
-  type: NodePort
-  selector:
-    app: prometheus
-  ports:
-    - port: 9090
-      targetPort: 9090
-      nodePort: 30090

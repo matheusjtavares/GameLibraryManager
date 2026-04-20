@@ -102,7 +102,11 @@ To monitor your application health and metrics in Kubernetes:
 
 2. **Deploy the monitoring stack:**
    ```bash
+   # Apply deployments, config, and RBAC
    kubectl apply -f k8s/monitoring/
+   
+   # Explicitly apply services to ensure they are created in the correct namespace
+   kubectl apply -f k8s/monitoring/services.yaml
    ```
 
 3. **Access the monitoring tools:**
@@ -115,6 +119,9 @@ To monitor your application health and metrics in Kubernetes:
    - Add **Prometheus**.
    - Set URL to: `http://prometheus-service.monitoring.svc.cluster.local:9090`.
    - Click **Save & Test**.
+
+> **💡 Troubleshooting:** If you encounter "port already allocated" errors, ensure no monitoring services are running in the `default` namespace:
+> `kubectl delete svc prometheus-service grafana-service -n default`
    
 
 ## 📁 Project Structure
