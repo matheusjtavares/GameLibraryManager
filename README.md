@@ -33,7 +33,7 @@ Game Library Manager is a full-stack web application designed to help you catalo
 - **Routing:** React Router
 
 ### Infrastructure
-- **Orchestration:** Docker Compose
+- **Orchestration:** Docker Compose / Kubernetes (Minikube)
 - **Web Server:** Nginx (serving the React SPA)
 
 ## 🛠️ Getting Started
@@ -41,6 +41,8 @@ Game Library Manager is a full-stack web application designed to help you catalo
 ### Prerequisites
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/) (for Kubernetes deployment)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/)
 
 ### Installation & Setup
 
@@ -50,15 +52,44 @@ Game Library Manager is a full-stack web application designed to help you catalo
    cd GameLibraryManager
    ```
 
-2. **Launch the application using Docker Compose:**
+2. **Environment Configuration:**
+   The project uses a `.env` file for sensitive credentials which is not included in the repository. Create a `.env` file in the root directory with the following default values:
+   ```env
+   DB_USER=gameuser
+   DB_PASS=secret
+   POSTGRES_DB=gamelib
+   ```
+
+3. **Option A: Launch using Docker Compose (Quick Start):**
    ```bash
    docker-compose up --build
    ```
-
-3. **Access the services:**
    - **Frontend UI:** [http://localhost:3000](http://localhost:3000)
    - **Backend API:** [http://localhost:8080](http://localhost:8080)
-   - **PostgreSQL:** `localhost:5433` (External port)
+   - **PostgreSQL:** `localhost:5433`
+
+4. **Option B: Deploy to Kubernetes (via Minikube):**
+   ```bash
+   # 1. Create the namespace
+   kubectl create namespace gamelibrarymanager
+
+   # 2. Configure Secrets
+   # The secrets.yaml file is excluded from the repo for security.
+   # Use secrets.yaml.template as a guide to create your own secrets.yaml.
+   # Values must be Base64 encoded (e.g., echo -n 'mysecret' | base64).
+   cd k8s
+   cp secrets.yaml.template secrets.yaml
+   # Edit secrets.yaml with your base64 encoded values
+
+   # 3. Apply the configuration
+   kubectl apply -f secrets.yaml -n gamelibrarymanager
+   kubectl apply -f . -n gamelibrarymanager
+
+   # 4. Access the services
+   minikube service ui -n gamelibrarymanager
+   minikube service api -n gamelibrarymanager
+   ```
+   *Note: You can also run `minikube service --all -n gamelibrarymanager` to see all available services.*
 
 ## 📁 Project Structure
 

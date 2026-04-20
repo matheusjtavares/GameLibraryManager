@@ -26,11 +26,20 @@ spec:
       containers:
         - env:
             - name: POSTGRES_DB
-              value: gamelib
+              valueFrom:
+                secretKeyRef:
+                  name: game-lib-secrets
+                  key: db-name
             - name: POSTGRES_PASSWORD
-              value: secret
+              valueFrom:
+                secretKeyRef:
+                  name: game-lib-secrets
+                  key: db-pass
             - name: POSTGRES_USER
-              value: gameuser
+              valueFrom:
+                secretKeyRef:
+                  name: game-lib-secrets
+                  key: db-user
           image: postgres:16-alpine
           name: game-lib-db
           ports:

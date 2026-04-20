@@ -24,11 +24,17 @@ spec:
       containers:
         - env:
             - name: DB_PASS
-              value: secret
+              valueFrom:
+                secretKeyRef:
+                  name: game-lib-secrets
+                  key: db-pass
             - name: DB_URL
               value: jdbc:postgresql://db:5433/gamelib
             - name: DB_USER
-              value: gameuser
+              valueFrom:
+                secretKeyRef:
+                  name: game-lib-secrets
+                  key: db-user
           image: matheusjtavares/gamelibrarymanager-api
           name: game-lib-api
           ports:

@@ -3,9 +3,9 @@ services:
     image: postgres:16-alpine
     container_name: game-lib-db
     environment:
-      POSTGRES_DB: gamelib
-      POSTGRES_USER: gameuser
-      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
     ports:
       - "5433:5432"
     volumes:
@@ -18,8 +18,8 @@ services:
       - "8080:8080"
     environment:
       DB_URL: jdbc:postgresql://db:5432/gamelib
-      DB_USER: gameuser
-      DB_PASS: secret
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
     depends_on:
       - db
 
