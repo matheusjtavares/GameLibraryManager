@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: gamelibrarymanager
+  annotations:
+    kompose.cmd: D:\Applications\Scoop\apps\kompose\current\kompose.exe convert
+    kompose.version: 1.38.0 (a8f5d1cbd)
+  labels:
+    io.kompose.service: api
+  name: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: api
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: D:\Applications\Scoop\apps\kompose\current\kompose.exe convert
+        kompose.version: 1.38.0 (a8f5d1cbd)
+      labels:
+        io.kompose.service: api
+    spec:
+      containers:
+        - env:
+            - name: DB_PASS
+              value: secret
+            - name: DB_URL
+              value: jdbc:postgresql://db:5432/gamelib
+            - name: DB_USER
+              value: gameuser
+          image: matheusjtavares/gamelibrarymanager-api
+          name: game-lib-api
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+      restartPolicy: Always

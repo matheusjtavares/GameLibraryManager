@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: gamelibrarymanager
+  annotations:
+    kompose.cmd: D:\Applications\Scoop\apps\kompose\current\kompose.exe convert
+    kompose.version: 1.38.0 (a8f5d1cbd)
+  labels:
+    io.kompose.service: ui
+  name: ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: ui
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: D:\Applications\Scoop\apps\kompose\current\kompose.exe convert
+        kompose.version: 1.38.0 (a8f5d1cbd)
+      labels:
+        io.kompose.service: ui
+    spec:
+      containers:
+        - env:
+            - name: VITE_API_BASE_URL
+              value: /api/v1
+          image: matheusjtavares/gamelibrarymanager-ui
+          name: game-lib-ui
+          ports:
+            - containerPort: 80
+              protocol: TCP
+      restartPolicy: Always
