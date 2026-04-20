@@ -1,25 +1,18 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   namespace: gamelibrarymanager
-  annotations:
-    kompose.cmd: D:\Applications\Scoop\apps\kompose\current\kompose.exe convert
-    kompose.version: 1.38.0 (a8f5d1cbd)
   labels:
     io.kompose.service: db
   name: db
 spec:
-  replicas: 4
+  serviceName: "db"
+  replicas: 1
   selector:
     matchLabels:
       io.kompose.service: db
-  strategy:
-    type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: D:\Applications\Scoop\apps\kompose\current\kompose.exe convert
-        kompose.version: 1.38.0 (a8f5d1cbd)
       labels:
         io.kompose.service: db
     spec:
@@ -48,8 +41,11 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgres-data
-      restartPolicy: Always
-      volumes:
-        - name: postgres-data
-          persistentVolumeClaim:
-            claimName: postgres-data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 100Mi
