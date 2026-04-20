@@ -39,26 +39,38 @@
       }
     },
     {
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 4 },
       "id": 2,
       "title": "CPU Usage (Cores)",
       "type": "timeseries",
       "targets": [
         {
-          "expr": "sum(rate(container_cpu_usage_seconds_total{container=~'api|ui'}[5m])) by (container)",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{container=~'game-lib-api|game-lib-ui'}[5m])) by (container)",
           "legendFormat": "{{container}}"
         }
       ]
     },
     {
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 4 },
       "id": 3,
       "title": "Memory Usage (Bytes)",
       "type": "timeseries",
       "targets": [
         {
-          "expr": "sum(container_memory_working_set_bytes{container=~'api|ui'}) by (container)",
+          "expr": "sum(container_memory_working_set_bytes{container=~'game-lib-api|game-lib-ui'}) by (container)",
           "legendFormat": "{{container}}"
+        }
+      ]
+    },
+    {
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 4 },
+      "id": 4,
+      "title": "API Request Count",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "sum(rate(http_server_requests_seconds_count{service='api'}[5m])) by (uri)",
+          "legendFormat": "{{uri}}"
         }
       ]
     }
