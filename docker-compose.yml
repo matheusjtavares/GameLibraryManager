@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: game-lib-db
+    environment:
+      POSTGRES_DB: gamelib
+      POSTGRES_USER: gameuser
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build: ./backend
+    container_name: game-lib-api
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/gamelib
+      DB_USER: gameuser
+      DB_PASS: secret
+    depends_on:
+      - db
+
+  ui:
+    build: ./frontend
+    container_name: game-lib-ui
+    ports:
+      - "3000:80"
+    environment:
+      VITE_API_BASE_URL: /api/v1
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
