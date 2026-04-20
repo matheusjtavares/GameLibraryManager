@@ -36,6 +36,11 @@ The Game Library Manager is a full-stack application designed to catalog and tra
 
 ### 4. Orchestration & Deployment
 - **Local Environment:** Created `docker-compose.yml` to spin up the entire stack (Postgres, API, UI).
+- **Kubernetes Orchestration:** Developed K8s manifests for deployment and service discovery:
+    - Deployments and Services for API, UI, and Database.
+    - PersistentVolumeClaim for PostgreSQL data persistence.
+    - Secret management for sensitive configurations.
+- **Observability:** Implemented a monitoring stack within Kubernetes using Prometheus and Grafana.
 - **Troubleshooting:**
   - Fixed `npm ci` issue by switching to `npm install`.
   - Resolved TypeScript `ImportMeta` errors by adding `vite-env.d.ts`.
@@ -48,8 +53,9 @@ The Game Library Manager is a full-stack application designed to catalog and tra
 - [x] Frontend UI fully functional.
 - [x] Database migrations applied.
 - [x] Dockerized and runnable via Docker Compose.
+- [x] Kubernetes manifests implemented for deployment and monitoring.
 - [x] Initial git commit performed.
 
 ## Next Steps
 - Add more comprehensive unit and integration tests.
-- Implement the "Future Enhancements" mentioned in the design doc (Observability, Auth).
+- Implement the "Future Enhancements" mentioned in the design doc (Auth).
