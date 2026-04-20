@@ -91,6 +91,32 @@ Game Library Manager is a full-stack web application designed to help you catalo
    ```
    *Note: You can also run `minikube service --all -n gamelibrarymanager` to see all available services.*
 
+### 📊 Monitoring Setup (Prometheus & Grafana)
+
+To monitor your application health and metrics in Kubernetes:
+
+1. **Create the monitoring namespace:**
+   ```bash
+   kubectl create namespace monitoring
+   ```
+
+2. **Deploy the monitoring stack:**
+   ```bash
+   kubectl apply -f k8s/monitoring/
+   ```
+
+3. **Access the monitoring tools:**
+   - **Prometheus:** [http://localhost:30090](http://localhost:30090) (or use `minikube service prometheus-service -n monitoring`)
+   - **Grafana:** [http://localhost:30300](http://localhost:30300) (or use `minikube service grafana-service -n monitoring`)
+
+4. **Configure Grafana Data Source:**
+   - Log in to Grafana (default: `admin`/`admin`).
+   - Go to **Connections** -> **Data Sources**.
+   - Add **Prometheus**.
+   - Set URL to: `http://prometheus-service.monitoring.svc.cluster.local:9090`.
+   - Click **Save & Test**.
+   
+
 ## 📁 Project Structure
 
 ```text
@@ -122,8 +148,6 @@ The backend exposes a RESTful JSON API at `/api/v1`:
 
 - [ ] **Authentication:** Implement multi-user support and secure authentication.
 - [ ] **Third-party Integration:** Integrate with external game databases (IGDB or RAWG) for automatic metadata fetching.
-- [ ] **Observability:** Add Prometheus and Grafana for monitoring application health and metrics.
-- [ ] **Kubernetes:** Provide Helm charts and Kubernetes manifests for production-grade orchestration.
 - [ ] **Unit & Integration Testing:** Expand test coverage for both backend and frontend components.
 
 ## 📝 License
